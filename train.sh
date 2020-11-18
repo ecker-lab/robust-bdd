@@ -20,3 +20,4 @@ elif [ $2 -eq 4 ]; then
     python train.py "table_${2}_${4}_1" --data_folder $1
     python train.py "table_${2}_${4}_2" --data_folder $1
     python train.py "table_${2}_${4}_3" --data_folder $1
+fi
