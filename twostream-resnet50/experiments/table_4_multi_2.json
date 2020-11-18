@@ -1,0 +1,37 @@
+{
+    "_comment": "twostream_resnet50 trained very lonngggg adaBN",
+    "model": {
+        "type": "onestage",
+        "name": "twostream_resnet50",
+        "model_args": {"in_channels": 6, "n_classes": 5, "seperate_loss": false, "pretrained": true, "output_features": false, "shared": false, "diff": true}
+    },
+    "data": {
+        "data_folder": ["resize256/", "resize256_3/","test256/"],
+        "viz_folder": ["viz/all/"],
+        "holdout_folder": ["hold/all/"],
+        "img_size": 256,
+        "batch_size": 12,
+        "disasters": "holdout2",
+        "augment_plus": true,
+        "adabn": true,
+        "adabn_train": true
+    },
+    "objective": {
+        "name": "CE",
+        "params": {
+            "weights": [0.1197, 0.7166, 1.2869, 1.0000, 1.3640]
+        }
+    },
+    "optimizer": {
+        "name": "SWA",
+        "learning_rate": 0.0001,
+        "swa_kick": 50,
+        "sheduler": {
+            "patience": 100,
+            "factor": 0.5
+        },
+        "longshedule": false
+    },
+    "epochs": 60,
+    "seed": 42
+}
