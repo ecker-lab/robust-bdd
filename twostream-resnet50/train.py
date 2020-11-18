@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     print("Preparing dataset")
 
-    data_folder = setting_dict["data"]["data_folder"] if args.data_folder is None else [os.path.join(args.local_folder, f) for f in setting_dict["data"]["data_folder"]]
+    data_folder = setting_dict["data"]["data_folder"] if args.data_folder is None else [os.path.join(args.data_folder, f) for f in setting_dict["data"]["data_folder"]]
     img_size = setting_dict["data"]["img_size"]
     batch_size = setting_dict["data"]["batch_size"]
     disaster_list = disaster_dict[setting_dict["data"]["disasters"]]

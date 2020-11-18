@@ -101,9 +101,9 @@ if __name__ == "__main__":
 
     print("Preparing dataset")
 
-    data_folder = setting_dict["data"]["data_folder"] if args.data_folder is None else [os.path.join(args.local_folder, f) for f in setting_dict["data"]["data_folder"]]
-    holdout_folder = setting_dict["data"]["holdout_folder"]if args.data_folder is None else [os.path.join(args.local_folder, f) for f in setting_dict["data"]["holdout_folder"]]
-    viz_folder = setting_dict["data"]["viz_folder"] if args.data_folder is None else [os.path.join(args.local_folder, f) for f in setting_dict["data"]["viz_folder"]]
+    data_folder = setting_dict["data"]["data_folder"] if args.data_folder is None else [os.path.join(args.data_folder, f) for f in setting_dict["data"]["data_folder"]]
+    holdout_folder = setting_dict["data"]["holdout_folder"]if args.data_folder is None else [os.path.join(args.data_folder, f) for f in setting_dict["data"]["holdout_folder"]]
+    viz_folder = setting_dict["data"]["viz_folder"] if args.data_folder is None else [os.path.join(args.data_folder, f) for f in setting_dict["data"]["viz_folder"]]
     img_size = setting_dict["data"]["img_size"]
     batch_size = setting_dict["data"]["batch_size"]
     disaster_list_train, disaster_list_test = disaster_dict[setting_dict["data"]["disasters"]]

@@ -41,7 +41,7 @@ if __name__ == "__main__":
     parser.add_argument('--resizewidth', type=int, default=32, metavar='N', help='resize the tiles to this width')
     args = parser.parse_args()
     if not os.path.exists(args.data_folder):
-        raise("data folder does not exist")
+        raise("data folder {} does not exist".format(args.data_folder))
     if not os.path.exists(args.output_folder):
         os.mkdir(args.output_folder)
     IMG_FOLDER = args.data_folder + "images/"
