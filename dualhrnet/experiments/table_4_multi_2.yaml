@@ -118,4 +118,4 @@ DEBUG:
   SAVE_HEATMAPS_PRED: False
 
 SWA: True
-mode: "singleood2train"
+mode: "singleood2"

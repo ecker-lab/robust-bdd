@@ -3,6 +3,12 @@ import math
 import random
 import errno
 
+from copy import copy
+import os
+import urllib.request
+from tqdm import tqdm
+
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -204,3 +210,64 @@ def safe_mkdir(directory):
     except OSError as e:
         if e.errno != errno.EEXIST:
             raise
+
+
+
+
+DL_LINKS = {
+    "table_1_plain": ["https://github.com/DIUx-xView/xView2_fifth_place/releases/download/final/weight.pth","dualhrnet_all_plain.pt"],
+    "table_2_plain": ["https://data.goettingen-research-online.de/api/access/datafile/20228?gbrecs=true","dualhrnet_gupta_plain.pt"],
+    "table_3_plain_1": ["https://data.goettingen-research-online.de/api/access/datafile/20230?gbrecs=true","dualhrnet_ood1_plain.pt"],
+    "table_3_plain_2": ["https://data.goettingen-research-online.de/api/access/datafile/20234?gbrecs=true","dualhrnet_ood2_plain.pt"],
+    "table_3_plain_3": ["https://data.goettingen-research-online.de/api/access/datafile/20238?gbrecs=true","dualhrnet_ood3_plain.pt"],
+    "table_4_plain_g": ["https://data.goettingen-research-online.de/api/access/datafile/20228?gbrecs=true","dualhrnet_gupta_plain.pt"],
+    "table_4_plain_1": ["https://data.goettingen-research-online.de/api/access/datafile/20230?gbrecs=true","dualhrnet_ood1_plain.pt"],
+    "table_4_plain_2": ["https://data.goettingen-research-online.de/api/access/datafile/20234?gbrecs=true","dualhrnet_ood2_plain.pt"],
+    "table_4_plain_3": ["https://data.goettingen-research-online.de/api/access/datafile/20238?gbrecs=true","dualhrnet_ood3_plain.pt"],
+    "table_4_swa_g": ["https://data.goettingen-research-online.de/api/access/datafile/20229?gbrecs=true","dualhrnet_gupta_swa.pt"],
+    "table_4_swa_1": ["https://data.goettingen-research-online.de/api/access/datafile/20231?gbrecs=true","dualhrnet_ood1_swa.pt"],
+    "table_4_swa_2": ["https://data.goettingen-research-online.de/api/access/datafile/20235?gbrecs=true","dualhrnet_ood2_swa.pt"],
+    "table_4_swa_3": ["https://data.goettingen-research-online.de/api/access/datafile/20239?gbrecs=true","dualhrnet_ood3_swa.pt"],
+    "table_4_multiadabn_g": ["https://data.goettingen-research-online.de/api/access/datafile/20226?gbrecs=true","dualhrnet_gupta_multi.pt"],
+    "table_4_multiadabn_1": ["https://data.goettingen-research-online.de/api/access/datafile/20258?gbrecs=true","dualhrnet_ood1_multi.pt"],
+    "table_4_multiadabn_2": ["https://data.goettingen-research-online.de/api/access/datafile/20232?gbrecs=true","dualhrnet_ood2_multi.pt"],
+    "table_4_multiadabn_3": ["https://data.goettingen-research-online.de/api/access/datafile/20236?gbrecs=true","dualhrnet_ood3_multi.pt"],
+    "table_4_multiadabnswa_g": ["https://data.goettingen-research-online.de/api/access/datafile/20227?gbrecs=true","dualhrnet_gupta_multiswa.pt"],
+    "table_4_multiadabnswa_1": ["https://data.goettingen-research-online.de/api/access/datafile/20257?gbrecs=true","dualhrnet_ood1_multiswa.pt"],
+    "table_4_multiadabnswa_2": ["https://data.goettingen-research-online.de/api/access/datafile/20233?gbrecs=true","dualhrnet_ood2_multiswa.pt"],
+    "table_4_multiadabnswa_3": ["https://data.goettingen-research-online.de/api/access/datafile/20237?gbrecs=true","dualhrnet_ood3_multiswa.pt"],
+}
+
+class DownloadProgressBar(tqdm):
+    def update_to(self, b=1, bsize=1, tsize=None):
+        if tsize is not None:
+            self.total = tsize
+        self.update(b * bsize - self.n)
+
+def download_weights(setting_name):
+    #TODO Put here the right setting -> downloadpath conversion
+    dl_path, outfile = DL_LINKS[setting_name]
+    filepath = "../weights/"+outfile
+    print("Downloading from {} to {}".format(dl_path, filepath))
+    if not os.path.isfile(filepath):
+        with DownloadProgressBar(unit='B', unit_scale=True, miniters=1, desc=dl_path.split('/')[-1]) as t:
+            urllib.request.urlretrieve(dl_path, filename = filepath, reporthook=t.update_to)
+        print("Downloaded!")
+    else:
+        print("File existed allready!")
+    return filepath
+
+CONFIG_TREATER = {
+    "table_4_multiadabnswa_1": "table_4_multi_1",
+    "table_4_multiadabnswa_2": "table_4_multi_2",
+    "table_4_multiadabnswa_3": "table_4_multi_3",
+    "table_4_multiadabnswa_g": "table_4_multi_g",
+    "table_4_multiadabn_1": "table_4_multi_1",
+    "table_4_multiadabn_2": "table_4_multi_2",
+    "table_4_multiadabn_3": "table_4_multi_3",
+    "table_4_multiadabn_g": "table_4_multi_g",
+    "table_4_swa_1": "table_4_plain_1",
+    "table_4_swa_2": "table_4_plain_2",
+    "table_4_swa_3": "table_4_plain_3",
+    "table_4_swa_g": "table_4_plain_g",
+}

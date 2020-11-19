@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 from models.dual_hrnet import get_model
 from xview2 import XView2Dataset, holdout_test, holdout2_test, holdout3_test, gupta_test, holdout_train, holdout2_train, holdout3_train, gupta_train
-from utils import safe_mkdir
+from utils import safe_mkdir, download_weights, CONFIG_TREATER
 
 from scoring.xview2_metrics import XviewMetrics
 
@@ -168,18 +168,18 @@ def argmax(loc, cls):
 
 def main():
     if args.config_path:
-        with open("experiments/"+args.config_path+".yaml", 'rb') as fp:
-            config = CfgNode.load_cfg(fp)
+        if args.config_path in CONFIG_TREATER:
+            with open("experiments/"+CONFIG_TREATER[args.config_path]+".yaml", 'rb') as fp:
+                config = CfgNode.load_cfg(fp)
+        else:
+            with open("experiments/"+args.config_path+".yaml", 'rb') as fp:
+                config = CfgNode.load_cfg(fp)
     else:
         config = None
 
     ckpt_path = args.weights
     if ckpt_path == "paper":
-        dl_name = args.config_path
-        dl_path = "blah"+dl_name
-        if not os.path.isfile("weights/"+dl_name):
-            urllib.request.urlretrieve(dl_path, "weights/"+dl_name)
-        ckpt_path = "weights/"+dl_name
+        ckpt_path = download_weights(args.config_path)
     
     result_submit_dir = "experiments/"+args.config_path+"/output/"#args.result_dir #os.path.join(args.result_dir, 'submit/')
     #result_compare_dir = os.path.join(args.result_dir, 'compare/')
@@ -197,11 +197,11 @@ def main():
     model = get_model(config)
     model.load_state_dict(torch.load(ckpt_path, map_location='cpu')['state_dict'])
     model.eval()
-    model_wrapper = ModelWraper(model, args.is_use_gpu, config.MODEL.IS_SPLIT_LOSS)
+    model_wrapper = ModelWraper(model, not args.is_use_gpu, config.MODEL.IS_SPLIT_LOSS)
     # model_wrapper = nn.DataParallel(model_wrapper)
     model_wrapper.eval()
 
-    for dataset_mode in [config.mode.replace("train","test"), config.mode.replace("train","hold")]:
+    for dataset_mode in [config.mode+"test", config.mode+"hold"]:
         result_submit_dir = "experiments/"+args.config_path+"/output/"+dataset_mode
         os.makedirs(result_submit_dir, exist_ok = True)
         safe_mkdir(result_submit_dir)
@@ -275,6 +275,8 @@ def main():
             testset_loader = torch.utils.data.DataLoader(testset, batch_size=1, shuffle=False, pin_memory=False, num_workers=1)
 
             for i, samples in enumerate(tqdm(testset_loader)):
+                if i > 10:
+                    break
                 if dataset_mode == 'train' and i < 5520:
                     continue
                 inputs_pre = samples['pre_img']

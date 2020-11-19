@@ -22,7 +22,7 @@ from lovasz import lovasz_softmax
 from models.dual_hrnet import get_model
 from utils import AverageMeter, adjust_learning_rate
 from xview2 import XView2Dataset, holdout_train, holdout2_train, holdout3_train, gupta_train
-from utils import safe_mkdir
+from utils import safe_mkdir, CONFIG_TREATER
 
 disaster_list = {"ood": holdout_train, "ood2": holdout2_train, "ood3": holdout3_train, "gupta": gupta_train}
 
@@ -189,8 +189,12 @@ class ModelLossWraper(nn.Module):
 
 def main():
     if args.config_path:
-        with open("experiments/"+args.config_path+".yaml", 'rb') as fp:
-            config = CfgNode.load_cfg(fp)
+        if args.config_path in CONFIG_TREATER:
+            with open("experiments/"+CONFIG_TREATER[args.config_path]+".yaml", 'rb') as fp:
+                config = CfgNode.load_cfg(fp)
+        else:
+            with open("experiments/"+args.config_path+".yaml", 'rb') as fp:
+                config = CfgNode.load_cfg(fp)
     else:
         config = None
 
@@ -408,5 +412,5 @@ def main():
                 }, os.path.join(ckpts_save_dir, 'hrnet_%s' % ("SWA")))
 
 if __name__ == '__main__':
-    multiprocessing.set_start_method('spawn', True)
+    #multiprocessing.set_start_method('spawn', True)
     main()
