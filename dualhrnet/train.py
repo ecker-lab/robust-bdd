@@ -414,5 +414,5 @@ def main():
                 }, os.path.join(ckpts_save_dir, 'hrnet_%s' % ("SWA")))
 
 if __name__ == '__main__':
-    #multiprocessing.set_start_method('spawn', True)
+    multiprocessing.set_start_method('spawn', True)
     main()
