@@ -1,6 +1,7 @@
 # Assessing out-of-domain generalization for robust building damage detection
 This repository contains code for the paper "Assessing out-of-domain generalization for robust building damage detection" by Vitus Benson and Alexander Ecker.
 
+We use the Dual-HRNet from https://github.com/DIUx-xView/xView2_fifth_place and the xView2-Score from https://github.com/DIUx-xView/xView2_scoring.
 
 # Setup
 Get yourself a copy of the xBD dataset from https://xView2.org
