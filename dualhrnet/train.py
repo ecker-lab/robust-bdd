@@ -190,11 +190,13 @@ class ModelLossWraper(nn.Module):
 def main():
     if args.config_path:
         if args.config_path in CONFIG_TREATER:
-            with open("experiments/"+CONFIG_TREATER[args.config_path]+".yaml", 'rb') as fp:
-                config = CfgNode.load_cfg(fp)
+            load_path = CONFIG_TREATER[args.config_path]
+        elif args.config_path.endswith(".yaml"):
+            load_path = args.config_path
         else:
-            with open("experiments/"+args.config_path+".yaml", 'rb') as fp:
-                config = CfgNode.load_cfg(fp)
+            load_path = "experiments/"+CONFIG_TREATER[args.config_path]+".yaml" 
+        with open(load_path, 'rb') as fp:
+            config = CfgNode.load_cfg(fp)
     else:
         config = None
 
