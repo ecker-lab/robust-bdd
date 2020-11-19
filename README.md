@@ -1,5 +1,5 @@
 # Assessing out-of-domain generalization for robust building damage detection
-Code for Benson &amp; Ecker (2020): Assessing out-of-domain generalization for robust building damage detection.
+This repository contains code for the paper "Assessing out-of-domain generalization for robust building damage detection" by Vitus Benson and Alexander Ecker.
 
 
 # Setup
@@ -34,3 +34,15 @@ Pre-trained weights are automatically downloaded when using the above `test.sh` 
 If you want to manually download them, find them under:
 
 Benson, Vitus, 2020, "Replication Data for: Assessing out-of-domain generalization for robust building damage detection", https://doi.org/10.25625/TRTODX, Göttingen Research Online / Data, V2
+
+# Citation
+If you use this work, please cite:
+```
+@article{Benson2020,
+    Author = {Vitus Benson and Alexander S. Ecker},
+    Title = {Assessing out-of-domain generalization for robust building damage detection},
+    Year = {2020},
+    journal = {arXiv:XXXX.XXXXX},
+    URL = {https://arxiv.org/abs/XXXX.XXXXX}
+}
+```
