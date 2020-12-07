@@ -1,5 +1,5 @@
 # Assessing out-of-domain generalization for robust building damage detection
-This repository contains code for the paper "Assessing out-of-domain generalization for robust building damage detection" by Vitus Benson and Alexander Ecker.
+This repository contains code for the paper ["Assessing out-of-domain generalization for robust building damage detection"](https://arxiv.org/abs/2011.10328) by Vitus Benson and Alexander Ecker.
 
 We use the Dual-HRNet from https://github.com/DIUx-xView/xView2_fifth_place and the xView2-Score from https://github.com/DIUx-xView/xView2_scoring.
 
@@ -43,7 +43,7 @@ If you use this work, please cite:
     Author = {Vitus Benson and Alexander S. Ecker},
     Title = {Assessing out-of-domain generalization for robust building damage detection},
     Year = {2020},
-    journal = {arXiv:XXXX.XXXXX},
-    URL = {https://arxiv.org/abs/XXXX.XXXXX}
+    journal = {NeurIPS 2020 Workshop on Artificial Intelligence for Humanitarian Assistance and Disaster Response (AI+HADR 2020)},
+    URL = {https://arxiv.org/abs/2011.10328}
 }
 ```
