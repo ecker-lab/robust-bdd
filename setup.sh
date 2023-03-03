@@ -10,7 +10,7 @@ pip3 install matplotlib==3.2.2 tqdm Pillow shapely==1.7.0 opencv-python==4.2.0.3
 pip3 install --upgrade setuptools
 
 
-python twostream-resnet50/utils/make_dataset.py --data-folder $1/train/ --output-folder $1/resize256/ --mode manymulti --cutwidth 256 --resizewidth 256
+python twostream-resnet50/utils/make_dataset.py --data-folder $1/tier1/ --output-folder $1/resize256/ --mode manymulti --cutwidth 256 --resizewidth 256
 python twostream-resnet50/utils/make_dataset.py --data-folder $1/tier3/ --output-folder $1/resize256_3/ --mode manymulti --cutwidth 256 --resizewidth 256
 python twostream-resnet50/utils/make_dataset.py --data-folder $1/test/ --output-folder $1/test256/ --mode manymulti --cutwidth 256 --resizewidth 256
 python twostream-resnet50/utils/make_dataset.py --data-folder $1/hold/ --output-folder $1/hold/all/ --mode nocut
